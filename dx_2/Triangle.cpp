@@ -1,10 +1,10 @@
-#include "config.h"
 #include "Triangle.h"
 
-Triangle::Triangle(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+Triangle::Triangle(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow):
+m_window(hInstance, hPrevInstance, lpCmdLine), m_dxEnv(m_window.GetHandle())
 {
-	m_window = Window(hInstance, hPrevInstance, lpCmdLine);
-	m_dxEnv = DXenv(m_window.GetHandle());
+//	m_window = Window(hInstance, hPrevInstance, lpCmdLine);
+//	m_dxEnv = DXenv(m_window.GetHandle());
 	m_window.Show(nCmdShow);
 }
 
