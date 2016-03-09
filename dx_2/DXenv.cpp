@@ -1,4 +1,5 @@
 #include "config.h"
+
 #include "DXenv.h"
 
 DXGI_SWAP_CHAIN_DESC GetSwapChainDescription(HWND hWnd);

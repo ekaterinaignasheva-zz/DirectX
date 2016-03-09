@@ -1,20 +1,22 @@
-#pragma once
-#include "config.h"
+#ifndef DX_2_TRIANGLE_H
+#define DX_2_TRIANGLE_H
+
 #include "Renderer.h"
 
-#include "Window.h"
-#include "DXenv.h"
+class Window;
+class DXenv;
 
 class Triangle :
 	public Renderer
 {
 public:
-	Triangle(Window& wind, DXenv& env);
+	Triangle(shared_ptr<Window> wind, shared_ptr<DXenv> env);
 	Triangle(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 	int StartEventLoop();
 	~Triangle();
 private:
-	Window m_window;
-	DXenv m_dxEnv;
+	shared_ptr<Window> m_window;
+	shared_ptr<DXenv> m_dxEnv;
 };
 
+#endif // DX_2_TRIANGLE_H

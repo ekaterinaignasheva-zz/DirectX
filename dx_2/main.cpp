@@ -1,4 +1,7 @@
 #include "config.h"
+
+#include <windows.h>
+
 #include "Triangle.h"
 
 int WINAPI WinMain(	HINSTANCE hInstance,
@@ -6,6 +9,6 @@ int WINAPI WinMain(	HINSTANCE hInstance,
 					LPSTR lpCmdLine,
 					int nCmdShow)
 {
-	Triangle renderer(hInstance, hPrevInstance, lpCmdLine,nCmdShow);
+	Triangle renderer(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 	renderer.StartEventLoop();
 }

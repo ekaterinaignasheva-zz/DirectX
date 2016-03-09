@@ -1,11 +1,10 @@
 #include "config.h"
+
 #include "Window.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-Window::Window(	HINSTANCE hInstance,
-				HINSTANCE hPrevInstance,
-				LPSTR lpCmdLine)
+Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	ZeroMemory(&m_wc, sizeof(WNDCLASSEX));
 
@@ -34,16 +33,17 @@ Window::Window(	HINSTANCE hInstance,
 							NULL,
 							hInstance,
 							NULL);
+	m_nCmdShow = nCmdShow;
 }
 
 
-bool Window::Show(int nCmdShow)
+bool Window::Show()
 {
-	return ShowWindow(m_hWnd, nCmdShow) ? true : false;
+	return ShowWindow(m_hWnd, m_nCmdShow) ? true : false;
 }
 
 
-HWND Window::GetHandle()
+HWND Window::GetHandle() const
 {
 	return m_hWnd;
 }
