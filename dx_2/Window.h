@@ -10,8 +10,9 @@ public:
 	Window& operator=(Window &wind);
 	~Window();
 private:
-	HWND m_hWnd;
-	WNDCLASSEX m_wc;  
+	HWND		m_hWnd;
+	HINSTANCE	m_hInst;
+	WNDCLASSEX	m_wc;  
 	int m_nCmdShow;
 };
 

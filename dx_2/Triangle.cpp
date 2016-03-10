@@ -36,6 +36,7 @@ int Triangle::StartEventLoop()
 		}
 		else
 		{
+			m_dxEnv->Draw();
 		}
 	}
 

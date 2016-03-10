@@ -6,34 +6,29 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	ZeroMemory(&m_wc, sizeof(WNDCLASSEX));
+	WNDCLASSEX wcex;
+	wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WindowProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = NULL;
+	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = NULL;
+	wcex.lpszClassName = L"MyWindowClass";
+	wcex.hIconSm = NULL;
+	RegisterClassEx(&wcex);
 
-	m_wc.cbSize = sizeof(WNDCLASSEX);
-	m_wc.style = CS_HREDRAW | CS_VREDRAW;
-	m_wc.lpfnWndProc = WindowProc;
-	m_wc.hInstance = hInstance;
-	m_wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	m_wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	m_wc.lpszClassName = L"WindowClass";
-
-	RegisterClassEx(&m_wc);
-
-	RECT wr = { 0, 0, 800, 600 };
-	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
-
-	m_hWnd = CreateWindowEx(NULL,
-							L"WindowClass",
-							L"Our First Direct3D Program",
-							WS_OVERLAPPEDWINDOW,
-							200,
-							200,
-							wr.right - wr.left,
-							wr.bottom - wr.top,
-							NULL,
-							NULL,
-							hInstance,
-							NULL);
-	m_nCmdShow = nCmdShow;
+	// Create window
+	m_hInst = hInstance;
+	RECT rc = { 0, 0, 640, 480 };
+	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+	m_hWnd = CreateWindow(L"MyWindowClass", L"Yellow Triangle",
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
+		NULL, NULL, hInstance, NULL);
 }
 
 
@@ -61,14 +56,28 @@ Window::~Window()
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	PAINTSTRUCT ps;
+	HDC hdc;
+
 	switch (message)
 	{
-	case WM_DESTROY:  
-	{
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+		break;
+
+	case WM_CHAR:
+		if (wParam == VK_ESCAPE)
+			DestroyWindow(hWnd);
+		break;
+
+	case WM_DESTROY:
 		PostQuitMessage(0);
-		return 0;
-	} break;
+		break;
+
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 
-	return DefWindowProc(hWnd, message, wParam, lParam);
+	return 0;
 }
